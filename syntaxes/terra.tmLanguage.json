@@ -1,0 +1,216 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Terra",
+	"scopeName": "source.terra",
+	"fileTypes": ["t", "terra"],
+	"patterns": [
+	  { "include": "#comments" },
+	  { "include": "#terra-keywords" },
+	  { "include": "#strings" },
+	  { "include": "#numbers" },
+	  { "include": "#terra-block" },
+	  { "include": "#struct-block" },
+	  { "include": "#method-def" },
+	  { "include": "#includecstring-block" },
+	  { "include": "#quoted-expressions" },
+	  { "include": "#asdl-block" },
+	  { "include": "#asdl-define-block" },
+	  { "include": "source.lua" }
+	],
+	"repository": {
+	  "comments": {
+		"patterns": [
+		  {
+			"name": "comment.block.terra",
+			"begin": "--\\[\\[",
+			"end": "\\]\\]"
+		  },
+		  {
+			"name": "comment.line.double-dash.terra",
+			"match": "--.*$"
+		  }
+		]
+	  },
+	  "terra-keywords": {
+		"patterns": [
+		  {
+			"name": "keyword.control.terra",
+			"match": "\\b(terra|struct|var|let|method|global|import|quote|escape|if|then|else|elseif|while|for|in|repeat|until|end|return|break|do)\\b"
+		  }
+		]
+	  },
+	  "strings": {
+		"patterns": [
+		  {
+			"name": "string.quoted.double.terra",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+			  { "name": "constant.character.escape.terra", "match": "\\\\." }
+			]
+		  },
+		  {
+			"name": "string.quoted.single.terra",
+			"begin": "'",
+			"end": "'",
+			"patterns": [
+			  { "name": "constant.character.escape.terra", "match": "\\\\." }
+			]
+		  },
+		  {
+			"name": "string.long.terra",
+			"begin": "\\[\\[",
+			"end": "\\]\\]"
+		  }
+		]
+	  },
+	  "numbers": {
+		"patterns": [
+		  {
+			"name": "constant.numeric.terra",
+			"match": "\\b0x[0-9A-Fa-f]+\\b|\\b\\d+(\\.\\d+)?([eE][+-]?\\d+)?\\b"
+		  }
+		]
+	  },
+	  "types": {
+		"patterns": [
+		  {
+			"name": "storage.type.terra",
+			"match": "\\b(int|int8|int16|int32|int64|uint|uint8|uint16|uint32|uint64|bool|float|double)\\b"
+		  }
+		]
+	  },
+	  "terra-block": {
+		"patterns": [
+		  {
+			"name": "meta.block.terra",
+			"begin": "\\bterra\\b\\s+[A-Za-z_]\\w*\\s*\\(",
+			"end": "\\bend\\b",
+			"patterns": [
+			  { "include": "#comments" },
+			  { "include": "#terra-keywords" },
+			  { "include": "#strings" },
+			  { "include": "#numbers" },
+			  { "include": "#types" },
+			  { "include": "source.lua" }
+			]
+		  }
+		]
+	  },
+	  "struct-block": {
+		"patterns": [
+		  {
+			"name": "meta.block.struct.terra",
+			"begin": "\\bstruct\\b\\s+[A-Za-z_]\\w*\\s*\\{",
+			"end": "\\}",
+			"patterns": [
+			  { "include": "#types" },
+			  { "include": "#comments" },
+			  { "include": "#strings" },
+			  { "include": "#numbers" }
+			]
+		  }
+		]
+	  },
+	  "method-def": {
+		"patterns": [
+		  {
+			"name": "meta.method.terra",
+			"begin": "\\bmethod\\b\\s+[A-Za-z_]\\w*\\s*\\(",
+			"end": "\\bend\\b",
+			"patterns": [
+			  { "include": "#comments" },
+			  { "include": "#terra-keywords" },
+			  { "include": "#strings" },
+			  { "include": "#numbers" },
+			  { "include": "#types" },
+			  { "include": "source.lua" }
+			]
+		  }
+		]
+	  },
+	  "includecstring-block": {
+		"patterns": [
+		  {
+			"name": "meta.embedded.c.terra",
+			"begin": "(?x)\\bterralib\\.includecstring(?:\\s*\\(\\s*|\\s*)(\"|\\[\\[)",
+			"beginCaptures": {
+			  "1": { "name": "punctuation.definition.string.begin.terra" }
+			},
+			"end": "(\"|\\]\\])",
+			"endCaptures": {
+			  "1": { "name": "punctuation.definition.string.end.terra" }
+			},
+			"contentName": "source.c",
+			"patterns": [
+			  { "include": "source.c" }
+			]
+		  }
+		]
+	  },
+	  "quoted-expressions": {
+		"patterns": [
+		  {
+			"name": "meta.quoted.expression.terra",
+			"match": "`([A-Za-z_][A-Za-z0-9_]*|\\d+)",
+			"captures": {
+			  "0": { "name": "meta.quoted.expression.terra" },
+			  "1": { "name": "variable.other.quoted.terra" }
+			}
+		  },
+		  {
+			"name": "meta.quoted.expression.bracket.terra",
+			"begin": "`\\[",
+			"beginCaptures": {
+			  "0": { "name": "punctuation.definition.quoted-expression.begin.terra" }
+			},
+			"end": "\\]",
+			"endCaptures": {
+			  "0": { "name": "punctuation.definition.quoted-expression.end.terra" }
+			},
+			"contentName": "source.terra",
+			"patterns": [
+			  { "include": "#comments" },
+			  { "include": "#terra-keywords" },
+			  { "include": "#strings" },
+			  { "include": "#numbers" },
+			  { "include": "#types" },
+			  { "include": "source.lua" },
+			  { "include": "#quoted-expressions" }
+			]
+		  }
+		]
+	  },
+	  "asdl-define-block": {
+		"patterns": [
+		  {
+			"name": "meta.asdl.block.terra",
+			"begin": "(?x)\n\\b([A-Za-z_][A-Za-z0-9_]*)\\s*:\\s*Define\\s*(?:\\(\\s*|\\s*)(\"|\\[\\[)",
+			"beginCaptures": {
+			  "1": { "name": "variable.other.asdl.context" },
+			  "2": { "name": "punctuation.definition.string.begin.terra" }
+			},
+			"end": "(\"|\\]\\])",
+			"endCaptures": {
+			  "1": { "name": "punctuation.definition.string.end.terra" }
+			},
+			"contentName": "source.asdl",
+			"patterns": [
+			  {
+				"name": "comment.line.number-sign.asdl",
+				"match": "#.*$"
+			  },
+			  {
+				"name": "keyword.control.asdl",
+				"match": "\\b(module|attributes|unique)\\b"
+			  },
+			  {
+				"name": "keyword.operator.asdl",
+				"match": "[=|?*,(){}.]"
+			  }
+			]
+		  }
+		]
+	  }
+	}
+}

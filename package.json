@@ -1,0 +1,30 @@
+{
+  "name": "terra-lua-syntax",
+  "displayName": "Terra/Lua Syntax",
+  "description": "Extensions for terra/lua. Syntax highlighting, etc.",
+  "version": "0.0.1",
+  "publisher": "dolphilia",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "terra",
+        "aliases": ["Terra", "terra"],
+        "extensions": [".t", ".terra"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "terra",
+        "scopeName": "source.terra",
+        "path": "./syntaxes/terra.tmLanguage.json"
+      }
+    ]
+  }
+}
