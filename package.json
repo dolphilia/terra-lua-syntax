@@ -4,6 +4,10 @@
   "description": "Extensions for terra/lua. Syntax highlighting, etc.",
   "version": "0.0.1",
   "publisher": "dolphilia",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dolphilia/terra-lua-syntax.git"
+  },
   "engines": {
     "vscode": "^1.95.0"
   },
