@@ -2,7 +2,7 @@
   "name": "terra-lua-syntax",
   "displayName": "Terra/Lua Syntax",
   "description": "Extensions for terra/lua. Syntax highlighting, etc.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "dolphilia",
   "repository": {
     "type": "git",
